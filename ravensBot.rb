@@ -9,22 +9,22 @@ newsFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=New
 photosFeedUrl = "http://www.baltimoreravens.com/cda-web/feeds/photo"
 
 time = Date.today
-
-
+title = "BaltimoreRavens.com Content from #{time.strftime("%Y-%m-%d")}"
+output = "####{title}"
 videoRss = RSS::Parser.parse(videoFeedUrl, false)
 videoRss.items.each do |item|
-  if item.pubDate.to_date > time-2
+  if item.pubDate.to_date > time-1
     begin
       videoPageUrl = /<li class="download-audio "><a href="(.+)">/.match(Net::HTTP.get(URI(item.link)))[1]
       videoUrl = "#{/(.+)32k.mp3/.match(videoPageUrl)[1]}5000k.mp4"
-      puts "#{item.pubDate} - #{item.title}"
-      puts videoUrl
+      output << "##Videos\n\n"
+      output << "[**#{item.title}**](#{videoUrl}) - #{item.description}"
     rescue
     end
   end
 end
 
-title = "BaltimoreRavens.com Content from #{time.strftime("%Y-%m-%d")}"
-output = "text"
-#puts "#{title}\n#{output}"
-#client.submit(title, "ravensbot", options={"text" => output})
+puts "[RavensBot]#{title}\n\n#{output}"
+puts client.submit("[RavensBot]#{title}", "ravens", options={"text" => output})
+sleep(300)
+puts client.submit("[RavensBot]#{title}", "ravensbot", options={"text" => output})
