@@ -45,6 +45,6 @@ output << "Hi, I am a reddit bot created by /u/_j_. Please send any comments, fe
 
 puts output
 puts "\n\n\n"
-puts client.submit("[RavensBot]#{title}", "ravensbot", options={:text => output})
-sleep(300)
 puts client.submit("[RavensBot]#{title}", "ravens", options={:text => output})
+sleep(600)
+puts client.submit("[RavensBot]#{title}", "ravensbot", options={:text => output})
