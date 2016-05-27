@@ -2,7 +2,12 @@ require 'redditkit'
 require 'rss'
 require 'date'
 require 'net/http'
-client = RedditKit::Client.new 'ravensbot', 'baltimore'
+require 'json'
+
+userPassFile = File.read('ravensBot.json')
+userPassHash = JSON.parse(userPassFile)
+
+client = RedditKit::Client.new userPassHash['username'], userPassHash['password']
 
 videoFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=Videos"
 newsFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=News"
@@ -45,6 +50,6 @@ output << "Hi, I am a reddit bot created by /u/_j_. Please send any comments, fe
 
 puts output
 puts "\n\n\n"
-puts client.submit("[RavensBot]#{title}", "ravens", options={:text => output})
-sleep(600)
 puts client.submit("[RavensBot]#{title}", "ravensbot", options={:text => output})
+sleep(600)
+puts client.submit("[RavensBot]#{title}", "ravens", options={:text => output})
