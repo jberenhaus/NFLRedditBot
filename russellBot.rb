@@ -13,7 +13,7 @@ videoFeedUrl = "http://www.seahawks.com/rss/video"
 newsFeedUrl = "http://www.seahawks.com/rss/article"
 photosFeedUrl = "http://www.seahawks.com/rss/gallery"
 
-time = Date.today-1
+time = Date.today
 title = "Seahawks.com Content from #{time.strftime("%Y-%m-%d")}"
 output = "####{title}###\n\n"
 videoRss = RSS::Parser.parse(videoFeedUrl, false)
