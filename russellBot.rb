@@ -4,27 +4,28 @@ require 'date'
 require 'net/http'
 require 'json'
 
-userPassFile = File.read('ravensBot.json')
+userPassFile = File.read('russellBot.json')
 userPassHash = JSON.parse(userPassFile)
 
 client = RedditKit::Client.new userPassHash['username'], userPassHash['password']
 
-videoFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=Videos"
-newsFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=News"
-photosFeedUrl = "http://www.baltimoreravens.com/cda-web/feeds/photo"
+videoFeedUrl = "http://www.seahawks.com/rss/video"
+newsFeedUrl = "http://www.seahawks.com/rss/article"
+photosFeedUrl = "http://www.seahawks.com/rss/gallery"
 
-time = Date.today
-title = "BaltimoreRavens.com Content from #{time.strftime("%Y-%m-%d")}"
+time = Date.today-1
+title = "Seahawks.com Content from #{time.strftime("%Y-%m-%d")}"
 output = "####{title}###\n\n"
 videoRss = RSS::Parser.parse(videoFeedUrl, false)
 output << "##Videos##\n\n"
 videoRss.items.each do |item|
   if item.pubDate.to_date > time-1
     begin
-      videoPageUrl = /<li class="download-audio "><a href="(.+)">/.match(Net::HTTP.get(URI(item.link)))[1]
+      videoPageUrl = /<a href=\"(.+.mp3)(.+)Download audio/.match(Net::HTTP.get(URI(item.link)))[1]
       videoUrl = "#{/(.+)32k.mp3/.match(videoPageUrl)[1]}5000k.mp4"
       output << "[**#{item.title}**](#{videoUrl}) - #{item.description}\n\n"
     rescue
+      puts 'error'
     end
   end
 end
@@ -50,6 +51,6 @@ output << "Hi, I am a reddit bot created by /u/_j_. Please send any comments, fe
 
 puts output
 puts "\n\n\n"
-puts client.submit("[RavensBot] #{title}", "ravensbot", options={:text => output})
+puts client.submit("[Russell_Bot] #{title}", "russell_bot", options={:text => output})
 sleep(600)
-puts client.submit("[RavensBot] #{title}", "ravens", options={:text => output})
+puts client.submit("[Russell_Bot] #{title}", "seahawks", options={:text => output})
