@@ -50,6 +50,10 @@ output << "Hi, I am a reddit bot created by /u/_j_. Please send any comments, fe
 
 puts output
 puts "\n\n\n"
+puts "-------------------------------------------\nSubmitting to log subreddit\n-----------------------------------------------------------"
 puts client.submit("[RavensBot] #{title}", "ravensbot", options={:text => output})
+puts "--------------------------------------------------\nSleeping for 10 minutes so we don't time out\n--------------------------------------------------------"
 sleep(600)
+puts "--------------------------------------------------\nSubmitting to Ravens subreddit\n-------------------------------------------------------"
 puts client.submit("[RavensBot] #{title}", "ravens", options={:text => output})
+puts "--------------------------------------------------\nDone!\n-------------------------------------------"
