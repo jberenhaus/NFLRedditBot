@@ -4,7 +4,7 @@ require 'date'
 require 'net/http'
 require 'json'
 
-userPassFile = File.read('ravensBot.json')
+userPassFile = File.read('./redditBots/ravensBot.json')
 userPassHash = JSON.parse(userPassFile)
 
 client = RedditKit::Client.new userPassHash['username'], userPassHash['password']
@@ -13,7 +13,7 @@ videoFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=Vi
 newsFeedUrl = "http://www.baltimoreravens.com/cda-web/rss-module.htm?tagName=News"
 photosFeedUrl = "http://www.baltimoreravens.com/cda-web/feeds/photo"
 
-time = Date.today
+time = Date.today-1
 title = "BaltimoreRavens.com Content from #{time.strftime("%Y-%m-%d")}"
 output = "####{title}###\n\n"
 videoRss = RSS::Parser.parse(videoFeedUrl, false)
@@ -52,8 +52,8 @@ puts output
 puts "\n\n\n"
 puts "-------------------------------------------\nSubmitting to log subreddit\n-----------------------------------------------------------"
 puts client.submit("[RavensBot] #{title}", "ravensbot", options={:text => output})
-puts "--------------------------------------------------\nSleeping for 10 minutes so we don't time out\n--------------------------------------------------------"
-sleep(600)
+puts "--------------------------------------------------\nSleeping for 15 minutes so we don't time out\n--------------------------------------------------------"
+sleep(900)
 puts "--------------------------------------------------\nSubmitting to Ravens subreddit\n-------------------------------------------------------"
 puts client.submit("[RavensBot] #{title}", "ravens", options={:text => output})
 puts "--------------------------------------------------\nDone!\n-------------------------------------------"

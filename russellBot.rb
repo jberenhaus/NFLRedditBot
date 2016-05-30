@@ -4,7 +4,7 @@ require 'date'
 require 'net/http'
 require 'json'
 
-userPassFile = File.read('russellBot.json')
+userPassFile = File.read('./redditBots/russellBot.json')
 userPassHash = JSON.parse(userPassFile)
 
 client = RedditKit::Client.new userPassHash['username'], userPassHash['password']
@@ -53,8 +53,8 @@ puts output
 puts "\n\n\n"
 puts "-------------------------------------------\nSubmitting to log subreddit\n-----------------------------------------------------------"
 puts client.submit("[Russell_Bot] #{title}", "russell_bot", options={:text => output})
-puts "--------------------------------------------------\nSleeping for 10 minutes so we don't time out\n--------------------------------------------------------"
-sleep(600)
+puts "--------------------------------------------------\nSleeping for 15 minutes so we don't time out\n--------------------------------------------------------"
+sleep(900)
 puts "--------------------------------------------------\nSubmitting to Seahawks subreddit\n-------------------------------------------------------"
 puts client.submit("[Russell_Bot] #{title}", "seahawks", options={:text => output})
 puts "--------------------------------------------------\nDone!\n-------------------------------------------"
